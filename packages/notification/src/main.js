@@ -19,6 +19,8 @@ const Notification = function(options) {
     Notification.close(id, userOnClose);
   };
 
+  options.spacing = options.spacing || 16;
+
   instance = new NotificationConstructor({
     data: options
   });
@@ -36,9 +38,9 @@ const Notification = function(options) {
 
   let verticalOffset = options.offset || 0;
   instances.filter(item => item.position === position).forEach(item => {
-    verticalOffset += item.$el.offsetHeight + 16;
+    verticalOffset += item.$el.offsetHeight + options.spacing;
   });
-  verticalOffset += 16;
+  verticalOffset += options.spacing;
   instance.verticalOffset = verticalOffset;
   instances.push(instance);
   return instance;
@@ -79,7 +81,7 @@ Notification.close = function(id, userOnClose) {
   for (let i = index; i < len - 1 ; i++) {
     if (instances[i].position === position) {
       instances[i].dom.style[instance.verticalProperty] =
-        parseInt(instances[i].dom.style[instance.verticalProperty], 10) - removedHeight - 16 + 'px';
+        parseInt(instances[i].dom.style[instance.verticalProperty], 10) - removedHeight - instance.$data.spacing + 'px';
     }
   }
 };
